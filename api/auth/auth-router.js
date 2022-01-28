@@ -34,32 +34,31 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
   */
 
   
-    const { username, password } = req.body
-    const hash = bcrypt.hashSync(password, 8)
+    // const { username, password } = req.body
+    // const hash = bcrypt.hashSync(password, 8)
     
-    if(!username || !password) {
-      next({message: "username and password required"})
-    } else {
-      const newUser = User.add({username, password: hash} )
-      res.status(201).json(newUser)
+    // if(!username || !password) {
+    //   next({message: "username and password required"})
+    // } else {
+    //   const newUser = User.add({username, password: hash} )
+    //   res.status(201).json(newUser)
+    // }
+
+
+  
+
+
+  const {username, password} = req.body
+  if(!username || !password) {
+    next({message: "username and password required"})
     }
-
-
-  
-
-
-  // const {username, password} = req.body
-  // if(!username || !password) {
-  //   next({message: "username and password required"})
-  //   }
-  //   .then(newUser => {
-  //     const hash = bcrypt.hashSync(password, 8)
-  //     User.add({username, password: hash})
-  
-  //       res.status(201).json(newUser)
-  //     } 
-  //   )
-
+    const hash = bcrypt.hashSync(password, 8)
+    User.add({username, password: hash})
+    .then(newUser => {
+      res.status(201).json(newUser)
+      } 
+    )
+    .catch(next)
     
 });
 
