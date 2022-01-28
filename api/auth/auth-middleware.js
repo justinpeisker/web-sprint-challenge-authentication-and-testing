@@ -1,5 +1,5 @@
 
-const { findBy } = require('../../users/users-model')
+const { findBy } = require('../users/users-model')
 
 const checkUsernameExists = async (req, res, next) => {
  
