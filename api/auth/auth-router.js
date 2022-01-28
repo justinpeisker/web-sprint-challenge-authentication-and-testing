@@ -11,7 +11,7 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
   
 
   if(!user.username || !user.password) {
-      next({message: "username and password required"})
+      next({status: 401, message: "username and password required"})
   }
   user.password = hash
   User.add(user)
