@@ -33,19 +33,19 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
       the response body should include a string exactly as follows: "username taken".
   */
 
-  try{
-    const {username, password} = req.body
+  
+    const { username, password } = req.body
     const hash = bcrypt.hashSync(password, 8)
-
+    
     if(!username || !password) {
       next({message: "username and password required"})
     } else {
       const newUser = User.add({username, password: hash} )
       res.status(201).json(newUser)
     }
-  } catch(err) {
-    next(err)
-  }
+
+
+  
 
 
   // const {username, password} = req.body
