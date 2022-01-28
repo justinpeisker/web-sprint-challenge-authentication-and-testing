@@ -5,7 +5,7 @@ const { checkUsernameExists } = require('./auth-middleware')
 const { JWT_SECRET } = require("../../secrets");
 const jwt = require('jsonwebtoken')
 
-router.post('/register', checkUsernameExists, (req, res, next) => {
+router.post('/register', checkUsernameExists, async (req, res, next) => {
   // res.end('implement register, please!');
   /*
     IMPLEMENT
@@ -40,8 +40,7 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
     if(!username || !password) {
       next({message: "username and password required"})
     } else { 
-      const newUser = {username, password: hash} 
-      User.add(newUser)
+      const newUser = await User.add({username, password: hash} )
       res.status(201).json(newUser)
     }
 
