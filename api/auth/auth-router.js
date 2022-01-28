@@ -97,15 +97,14 @@ router.post('/login', (req, res, next) => {
           token,
         })
       } else {
-        next({status: 401, message: 'Invalid credentials'})
+        next({status: 401, message: 'invalid credentials'})
       }
 });
 
 function buildToken(user) {
   const payload = {
-    subject: user.user_id,
-    role_name: user.role_name,
     username: user.username,
+    password: user.password
   }
   const options = {
     expiresIn: '1d',
