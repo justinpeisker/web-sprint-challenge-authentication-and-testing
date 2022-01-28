@@ -15,3 +15,7 @@ const checkUsernameExists = async (req, res, next) => {
       next(err)
     }
   }
+
+  module.exports = {
+    checkUsernameExists,
+  }
