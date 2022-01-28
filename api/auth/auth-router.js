@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs')
+const User = require('../../users/users-model')
+const { checkUsernameExists } = require('../middleware/auth-middleware')
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', checkUsernameExists, async (req, res, next) => {
   // res.end('implement register, please!');
   /*
     IMPLEMENT
@@ -30,8 +32,17 @@ router.post('/register', async (req, res, next) => {
   */
   try{
     const { username, password } = req.body
-    const hash = bcrypt.hashSync(password, 8)
-    const newUser = { username, password: hash }
+
+    if (!username || !password) {
+      next({messasge: "username and password required"})
+    } else {
+      const hash = bcrypt.hashSync(password, 8)
+      const newUser = { username, password: hash }
+      const inserted = await User.add(newUser)
+      res.json({message: `Welcome, ${inserted.username}`})
+    }
+    
+    
 
   } catch(err) {
     next(err)
