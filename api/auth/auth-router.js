@@ -2,7 +2,8 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs')
 const User = require('../../users/users-model')
 const { checkUsernameExists } = require('./auth-middleware')
-
+const { JWT_SECRET } = require("../../secrets");
+const jwt = require('jsonwebtoken')
 router.post('/register', checkUsernameExists, async (req, res, next) => {
   // res.end('implement register, please!');
   /*
@@ -89,4 +90,15 @@ router.post('/login', (req, res) => {
       }
 });
 
+function buildToken(user) {
+  const payload = {
+    subject: user.user_id,
+    role_name: user.role_name,
+    username: user.username,
+  }
+  const options = {
+    expiresIn: '1d',
+  }
+  return jwt.sign(payload, JWT_SECRET, options)
+}
 module.exports = router;
