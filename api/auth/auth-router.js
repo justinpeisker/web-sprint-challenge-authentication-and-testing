@@ -8,11 +8,12 @@ const jwt = require('jsonwebtoken')
 router.post('/register', checkUsernameExists, (req, res, next) => {
   let user = req.body
   const hash = bcrypt.hashSync(user.password, 8)
-  user.password = hash
+  
 
   if(!user.username || !user.password) {
       next({message: "username and password required"})
   }
+  user.password = hash
   User.add(user)
     .then(newUser => {
       res.status(201).json(newUser)
