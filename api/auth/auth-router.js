@@ -77,7 +77,7 @@ router.post('/login', (req, res) => {
       the response body should include a string exactly as follows: "invalid credentials".
   */
       const { username, password } = req.body
-      if(!username ||password) {
+      if(!username || !password) {
         next({message: "username and password required"})
       } else if(bcrypt.compareSync(password, req.user.password)) {
         const token = buildToken(req.user)
