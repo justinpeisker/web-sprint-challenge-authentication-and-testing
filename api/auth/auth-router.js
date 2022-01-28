@@ -1,18 +1,18 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs')
 const User = require('../users/users-model')
-const { checkUsernameExists  } = require('./auth-middleware')
+const { checkUsernameExists, unAndPassRequired  } = require('./auth-middleware')
 const { JWT_SECRET } = require("../../secrets");
 const jwt = require('jsonwebtoken')
 
-router.post('/register', checkUsernameExists, (req, res, next) => {
+router.post('/register', checkUsernameExists, unAndPassRequired, (req, res, next) => {
   let user = req.body
   const hash = bcrypt.hashSync(user.password, 8)
   
 
-  if(!user.username || !user.password) {
-      next({status: 401, message: "username and password required"})
-  }
+  // if(!user.username || !user.password) {
+  //     next({status: 401, message: "username and password required"})
+  // }
   user.password = hash
   User.add(user)
     .then(newUser => {
@@ -86,7 +86,7 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
     
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', unAndPassRequired, (req, res, next) => {
   // res.end('implement login, please!');
   /*
     IMPLEMENT
@@ -120,7 +120,7 @@ let { username, password } = req.body
         const token = buildToken(user)
         res.status(200).json({ message: `welcome ${user.username}`, token })
       } else {
-        next({ status: 401, message: 'Invalid Credentials' })
+        next({ status: 401, message: 'invalid Credentials' })
       }
     })
     .catch(next)
