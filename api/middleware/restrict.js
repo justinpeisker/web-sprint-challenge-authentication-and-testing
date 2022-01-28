@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
     if(err) {
       next({status: 401, message: 'token invalid'})
     } else {
-      req.decodedToken = decodedToken
+      // req.decodedToken = decodedToken
       next()
     }
 
