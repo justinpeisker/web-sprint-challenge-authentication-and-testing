@@ -6,6 +6,16 @@ const { JWT_SECRET } = require("../../secrets");
 const jwt = require('jsonwebtoken')
 
 router.post('/register', checkUsernameExists, (req, res, next) => {
+  let user = req.body
+  const hash = bcrypt.hashSync(user.password, 8)
+  user.password = hash
+
+  User.add(user)
+    .then(newUser => {
+      res.status(201).json(newUser)
+    })
+    .catch(next)
+
   // res.end('implement register, please!');
   /*
     IMPLEMENT
@@ -44,17 +54,17 @@ router.post('/register', checkUsernameExists, (req, res, next) => {
     //   res.status(201).json(newUser)
     // }
 
-  const {username, password} = req.body
-  if(username && password) {
-    const hash = bcrypt.hashSync(password, 8)
-    User.add({username, password: hash})
-    .then(newUser => {
-      res.status(201).json(newUser)
-      } 
-    ).catch(next)
-  } else {
-    next({message: "username and password required"})
-  }
+  // const {username, password} = req.body
+  // if(username && password) {
+  //   const hash = bcrypt.hashSync(password, 8)
+  //   User.add({username, password: hash})
+  //   .then(newUser => {
+  //     res.status(201).json(newUser)
+  //     } 
+  //   ).catch(next)
+  // } else {
+  //   next({message: "username and password required"})
+  // }
   
 
 
