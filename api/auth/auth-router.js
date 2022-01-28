@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs')
 const User = require('../../users/users-model')
-const { checkUsernameExists } = require('../middleware/restrict')
+const { checkUsernameExists } = require('./auth-middleware')
 
 router.post('/register', checkUsernameExists, async (req, res, next) => {
   // res.end('implement register, please!');
