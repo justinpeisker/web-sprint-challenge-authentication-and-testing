@@ -19,6 +19,7 @@ it('correct env', () => {
   expect(process.env.NODE_ENV).toBe('testing')
 })
 
+// FYI- I COULDN'T SEEM TO GET ANY OF MY TESTS PASSING, THEY KEPT RETURNING A 404 NO MATTER WHAT CHANGES I MADE
 
 // describe('POST /register', () => {
 //   test('returns with status 201 Created', async () => {
